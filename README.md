@@ -1,3 +1,4 @@
 # WiCHack_UtilityWebApp
 
-# Access Objectives List in GitHub Projects
+Getting started:
+  - Access Objectives List in GitHub Projects
