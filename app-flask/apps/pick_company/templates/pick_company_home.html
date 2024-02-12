@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Company</title>
+</head>
+<body>
+
+    <h1>Welcome! Please pick a company:</h1>
+
+    <form action="{{ url_for('pick_company_bp.process_company_selection') }}" method="post">
+        <!-- Assuming you have a list of available companies -->
+        <label for="companies">Select a company:</label>
+        <select name="selected_company" id="companies">
+            <option value="company1">Company 1</option>
+            <option value="company2">Company 2</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Table</title>
+</head>
+<body>
+    <h1>Set Table</h1>
+    <p>Do you want table {{ table_number }} for {{ company }}?</p>
+
+    <form method="post" action="{{ url_for('set_table_bp.process_set_table', company=company, table_number=table_number) }}">
+        <label for="response">Your response:</label>
+        <select name="response" id="response" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Display the result directly on the page -->
+    {% if result %}
+        <p>{{ result }}</p>
+    {% endif %}
+</body>
+</html>
