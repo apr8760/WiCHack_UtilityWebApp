@@ -28,19 +28,19 @@ def process_ready_response(company):
 
     if user_response == "yes":
         # Call a backend function to get available table number for the company
-        table_number = get_available_table(company)
+        table_number = get_available_table()
         return redirect(url_for("set_table_bp.set_table_page", company=company, table_number=table_number))
     else:
         return redirect(url_for("ready_for_table_bp.ask_ready_question", company=company))
 
 
-def get_available_table(company):
+def get_available_table():
     """
     Function to get an available table for the given company.
-    Replace this function with your logic to assign a table based on availability.
     """
-    # Replace this with your logic to get an available table for the company
-    # For example, you could query a database, or implement a custom logic
-    # Here, we'll just return a placeholder table number for demonstration purposes
-    return 42
+    for index, value in enumerate(app.available_tables):
+        if value:
+            return index + 1
+    
+    return None
 

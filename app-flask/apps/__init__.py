@@ -7,6 +7,11 @@ def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object('config.Config')
 
+    app.tables = init_tables(app)
+    app.categories_to_company = init_categories_to_company(app)
+    app.categories_to_table = init_categories_to_table(app)
+    app.available_tables = init_availability(app)
+
     with app.app_context():
         # Include our Routes
         from .pick_company import pick_company

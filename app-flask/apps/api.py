@@ -1,29 +1,26 @@
 """Read placeholder data for demo purposes."""
 
-import json
 import csv
 from flask import Flask
 
 
 
-"""Read in table data (ie. table numbers and which tables associate to each other)"""
-def init_tables(app: Flask) -> dict:
+"""Read in table data (i.e., table numbers and which tables associate to each other)"""
+def init_tables(app: Flask) -> list:
+    # Initialize an empty list to store neighbors for each table
+    table_neighbors_list = []
 
-    # Initialize an empty dictionary to store neighbors for each table
-    table_neighbors_dict = {}
-
-    # Read CSV file and populate the dictionary
+    # Read CSV file and populate the list
     with open(app.config["TABLE_PLACEMENTS_DATA_FILEPATH"], newline='') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header row
         for row in reader:
-            table = int(row[0])
             neighbors_str = row[1].split(',')
             neighbors = [int(neighbor) for neighbor in neighbors_str]
-            table_neighbors_dict[table] = neighbors
+            table_neighbors_list.append(neighbors)
 
-    print(table_neighbors_dict)
-    return table_neighbors_dict
+    print(table_neighbors_list)
+    return table_neighbors_list
 
 
 def init_categories_to_company(app: Flask) -> dict:
@@ -44,23 +41,26 @@ def init_categories_to_company(app: Flask) -> dict:
     return categories_to_company
 
 
-def init_categories_to_table(app: Flask) -> dict:
-
+"""Initialize categories to table mapping"""
+def init_categories_to_table(app: Flask) -> list:
     # Initialize an empty list to store the list of possible categories
-    categories_to_table_dict = {}
+    categories_to_table_list = []
 
-    # Read CSV file and populate list
+    # Read CSV file and populate the list
     with open(app.config["CATEGORIES_TO_TABLE_FILEPATH"], newline='') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header row
         for row in reader:
-            table = row[0]
             categories = row[1].split(',')
-            categories_to_table_dict[table] = categories
+            categories_to_table_list.append(categories)
 
-    print(categories_to_table_dict)
-    return categories_to_table_dict
+    print(categories_to_table_list)
+    return categories_to_table_list
 
 
-## TODO: intialize the occupied_booleans to all false (bascially return dict (key: table, value: T/F) with all false for tables)
+def init_availability(app: Flask) -> dict:
+    number_tables = len(app.tables)                     # find number of tables
+    return [True] * number_tables                      # return all false array 
+
+
 

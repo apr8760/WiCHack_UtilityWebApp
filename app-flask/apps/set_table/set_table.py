@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 from flask import current_app as app
 
 # Blueprint Configuration
@@ -26,8 +26,26 @@ def process_set_table(company, table_number):
     user_response = request.form.get("response", "").lower()
 
     if user_response == "yes":
-        result = f"Table {table_number} has been set for {company}."
+        if set_chosen_table(table_number) == 0:
+            result = f"Table {table_number} has been set for {company}."
+
+        else:
+            result = f"Table {table_number} cannot be set for {company}."
     else:
         result = f"You chose not to set table {table_number} for {company}."
 
-    return render_template("set_table_page.html", company=company, table_number=table_number, result=result)
+    # TODO uncomment line bellow once done debugging with loop back to ready for table page
+    # return render_template("set_table_page.html", company=company, table_number=table_number, result=result)
+    return redirect(url_for("ready_for_table_bp.ask_ready_question", company=company))
+
+def set_chosen_table(table_number):
+    """Set that table to false in available list"""
+
+    if 0 <= table_number < len(app.available_tables):
+        app.available_tables[table_number - 1] = False
+        return 0
+    else:
+        print("Invalid index.")
+        return 1
+
+
