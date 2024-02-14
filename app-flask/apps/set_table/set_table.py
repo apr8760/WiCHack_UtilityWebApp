@@ -26,19 +26,16 @@ def process_set_table(company, table_number):
     user_response = request.form.get("response", "").lower()
 
     if user_response == "yes":
-        if set_chosen_table(table_number) == 0:
-            result = f"Table {table_number} has been set for {company}."
-
+        result = set_chosen_table(table_number, company)
+        if result == 0:
+            return redirect(url_for("at_table_bp.at_table_page", company=company, table_number=table_number))
         else:
-            result = f"Table {table_number} cannot be set for {company}."
+            return render_template("set_table_page.html", company=company, table_number=table_number, result=result)
     else:
         result = f"You chose not to set table {table_number} for {company}."
+        return render_template("set_table_page.html", company=company, table_number=table_number, result=result)
 
-    # TODO uncomment line bellow once done debugging with loop back to ready for table page
-    # return render_template("set_table_page.html", company=company, table_number=table_number, result=result)
-    return redirect(url_for("ready_for_table_bp.ask_ready_question", company=company))
-
-def set_chosen_table(table_number):
+def set_chosen_table(table_number, company):
     """Set that table to false in available list"""
 
     if 0 <= table_number < len(app.available_tables):
@@ -46,6 +43,4 @@ def set_chosen_table(table_number):
         return 0
     else:
         print("Invalid index.")
-        return 1
-
-
+        return f"Table {table_number} cannot be set for {company}."

@@ -1,6 +1,7 @@
 """Ready of table page routes."""
 from flask import Blueprint, request
 from flask import current_app as app
+from apps.api.api_table_alogrithms import *
 from flask import Flask, render_template, redirect, url_for
 
 
@@ -34,13 +35,5 @@ def process_ready_response(company):
         return redirect(url_for("ready_for_table_bp.ask_ready_question", company=company))
 
 
-def get_available_table():
-    """
-    Function to get an available table for the given company.
-    """
-    for index, value in enumerate(app.available_tables):
-        if value:
-            return index + 1
-    
-    return None
+
 

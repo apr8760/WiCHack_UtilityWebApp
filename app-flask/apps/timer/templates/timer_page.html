@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Page</title>
+    <!-- Add any additional styles or scripts as needed -->
+</head>
+
+<body>
+    <h1>Timer Page</h1>
+
+    <div id="timer">60</div>
+
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="restartTimer()">Restart</button>
+
+    <button onclick="doneWithTable()">Done with table, moving on now!</button>
+    <button onclick="getDifferentTable()">Want a different table?</button>
+
+    <script>
+        let timeLeft = 60;
+        let timer;
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                } else {
+                    document.getElementById("timer").textContent = timeLeft;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timer);
+        }
+
+        function restartTimer() {
+            timeLeft = 60;
+            document.getElementById("timer").textContent = timeLeft;
+        }
+
+        function doneWithTable() {
+            window.location.href = "{{ url_for('ready_for_table_bp.ask_ready_question', company=company) }}";
+        }
+
+        function getDifferentTable() {
+            window.location.href = "{{ url_for('set_table_bp.set_table_page', company=company, table_number=table_number) }}";
+        }
+    </script>
+</body>
+
+</html>

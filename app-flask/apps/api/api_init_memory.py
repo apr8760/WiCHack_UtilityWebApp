@@ -1,4 +1,4 @@
-"""Read placeholder data for demo purposes."""
+"""Backend functionality for initializing all csv data specific to our hackathon."""
 
 import csv
 from flask import Flask
@@ -42,25 +42,25 @@ def init_categories_to_company(app: Flask) -> dict:
 
 
 """Initialize categories to table mapping"""
-def init_categories_to_table(app: Flask) -> list:
+def init_categories_to_table(app: Flask) -> dict:
     # Initialize an empty list to store the list of possible categories
-    categories_to_table_list = []
+    tables_to_category = {}
 
-    # Read CSV file and populate the list
-    with open(app.config["CATEGORIES_TO_TABLE_FILEPATH"], newline='') as csvfile:
+    # Read CSV file and populate list
+    with open(app.config["TABLES_TO_CATEGORY_FILEPATH"], newline='') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Skip header row
         for row in reader:
-            categories = row[1].split(',')
-            categories_to_table_list.append(categories)
+            category = row[0]
+            tables = row[1].split(',')
+            tables_to_category[category] = tables
 
-    print(categories_to_table_list)
-    return categories_to_table_list
+    print(tables_to_category)
+    return tables_to_category
 
 
 def init_availability(app: Flask) -> dict:
     number_tables = len(app.tables)                     # find number of tables
     return [True] * number_tables                      # return all false array 
-
 
 

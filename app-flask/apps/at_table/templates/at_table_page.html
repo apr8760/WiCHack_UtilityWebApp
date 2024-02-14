@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>At Table Page</title>
+</head>
+<body>
+
+    <h1>Are you at table {{ table_number }}?</h1>
+
+    <form method="post" action="{{ url_for('timer_bp.timer_page', company=company, table_number=table_number) }}">
+        <button type="submit">Yes!</button>
+    </form>
+
+    <div id="countdown" data-time="120"></div>
+
+    <script>
+        // Countdown Timer Script
+        var countdown = document.getElementById('countdown');
+        var time = parseInt(countdown.dataset.time);
+
+        function updateCountdown() {
+            countdown.innerHTML = time + ' seconds remaining';
+            time--;
+
+            if (time < 0) {
+                window.location.href = "{{ url_for('ready_for_table_bp.ask_ready_question', company=company) }}";
+            } else {
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+
+        updateCountdown();
+    </script>
+
+</body>
+</html>
