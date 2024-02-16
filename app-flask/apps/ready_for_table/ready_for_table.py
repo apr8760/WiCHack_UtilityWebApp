@@ -1,6 +1,8 @@
 """Ready of table page routes."""
+import html
 from flask import Blueprint, request
 from flask import current_app as app
+from apps.api.api_table_alogrithms import *
 from flask import Flask, render_template, redirect, url_for
 
 
@@ -14,7 +16,46 @@ def ask_ready_question(company):
     :param company: Selected company from pick_company_bp
     :return: HTML template
     """
-    return render_template("ready_for_table_page.html", company=company)
+    return render_template("ready_for_table_page.html", company=html.unescape(company))
+
+##### TODO find a better way to rest tables when done with table than calling a seperate "again" function
+#### but for now this is just how it needs to be
+@ready_for_table_bp.route("/ready-question-<company>-<int:table_number>")
+def ask_ready_question_again(company, table_number):
+    """
+    Route for the page asking if the user is ready for a table.
+    :param company: Selected company from pick_company_bp
+    :return: HTML template
+    """
+
+    # TODO: Delete debug print
+    print("BEFORE RESET------------------------------------------------")
+    print("Dictionary for all tables availability:")
+    print(app.available_tables)
+    print("Done list for this company now:")
+    print("done lists:")
+    print(app.company_done_lists)
+    print("company:")
+    print(company)
+    print(app.company_done_lists[company])
+
+    free_table(app, table_number=table_number)
+    make_done(app, company=company, table_number=table_number)
+    print("-------------------------------------------------------------")
+
+    print("AFTER RESET------------------------------------------------")
+    # TODO: Delete debug print
+    print("Dictionary for all tables availability:")
+    print(app.available_tables)
+    print("Done list for this company now:")
+    print("done lists:")
+    print(app.company_done_lists)
+    print("company:")
+    print(company)
+    print(app.company_done_lists[company])
+    print("-----------------------------------------------------------")
+    
+    return render_template("ready_for_table_page.html", company=html.unescape(company))
 
 @ready_for_table_bp.route("/ready-question-<company>", methods=["POST"])
 def process_ready_response(company):
@@ -27,20 +68,10 @@ def process_ready_response(company):
     user_response = request.form.get("response", "").lower()
 
     if user_response == "yes":
-        # Call a backend function to get available table number for the company
-        table_number = get_available_table(company)
-        return redirect(url_for("set_table_bp.set_table_page", company=company, table_number=table_number))
+        return redirect(url_for("set_table_bp.set_table_page", company=html.unescape(company), old_table_number=0))
     else:
-        return redirect(url_for("ready_for_table_bp.ask_ready_question", company=company))
+        return redirect(url_for("ready_for_table_bp.ask_ready_question", company=html.unescape(company)))
 
 
-def get_available_table(company):
-    """
-    Function to get an available table for the given company.
-    Replace this function with your logic to assign a table based on availability.
-    """
-    # Replace this with your logic to get an available table for the company
-    # For example, you could query a database, or implement a custom logic
-    # Here, we'll just return a placeholder table number for demonstration purposes
-    return 42
+
 

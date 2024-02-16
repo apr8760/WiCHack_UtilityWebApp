@@ -18,4 +18,4 @@ class Config:
     # Hardcoded data
     TABLE_PLACEMENTS_DATA_FILEPATH = r'C:\Users\ainsl\Google Drive\RIT\WiC\WiC_Projects\WiCHack_UtilityWebApp\data\table_placements.csv'
     CATEGORIES_TO_COMPANY_FILEPATH = r'C:\Users\ainsl\Google Drive\RIT\WiC\WiC_Projects\WiCHack_UtilityWebApp\data\categories_to_company.csv'
-    CATEGORIES_TO_TABLE_FILEPATH = r'C:\Users\ainsl\Google Drive\RIT\WiC\WiC_Projects\WiCHack_UtilityWebApp\data\categories_to_table.csv'
+    TABLES_TO_CATEGORY_FILEPATH = r'C:\Users\ainsl\Google Drive\RIT\WiC\WiC_Projects\WiCHack_UtilityWebApp\data\tables_to_category.csv'
