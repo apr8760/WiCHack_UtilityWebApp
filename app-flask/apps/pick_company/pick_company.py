@@ -20,7 +20,7 @@ def process_company_selection():
     selected_company = request.form.get("selected_company")
 
     if selected_company:
-        return redirect(url_for("ready_for_table_bp.ask_ready_question", company=selected_company))
+        return redirect(url_for("ready_bp.ask_ready_question", company=selected_company))
     else:
         return redirect(url_for("pick_company_bp.home_page"))
 
