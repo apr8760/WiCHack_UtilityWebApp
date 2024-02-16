@@ -9,8 +9,9 @@ def create_app():
 
     app.tables = init_tables(app)
     app.categories_to_company = init_categories_to_company(app)
-    app.categories_to_table = init_categories_to_table(app)
+    app.tables_to_category = init_tables_to_category(app)
     app.available_tables = init_availability(app)
+    app.company_done_lists = init_company_done_lists(app)
 
     with app.app_context():
         # Include our Routes

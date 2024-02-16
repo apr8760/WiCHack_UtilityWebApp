@@ -1,6 +1,7 @@
 """General page routes."""
 from flask import Blueprint, render_template
 from flask import current_app as app
+from apps.api.api_table_alogrithms import *
 
 
 # Blueprint Configuration

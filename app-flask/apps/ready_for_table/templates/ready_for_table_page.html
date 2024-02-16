@@ -7,9 +7,9 @@
 </head>
 <body>
     <h1>Ready for Table</h1>
-    <p>Are you ready for a table at {{ company }}?</p>
+    <p>Are you ready for a table?</p>
 
-    <form method="post" action="{{ url_for('ready_for_table_bp.process_ready_response', company=company) }}">
+    <form method="post" action="{{ url_for('ready_for_table_bp.process_ready_response', company=company, table_number=None) }}">
         <label for="response">Your response:</label>
         <select name="response" id="response" required>
             <option value="yes">Yes</option>

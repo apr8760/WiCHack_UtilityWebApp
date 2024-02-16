@@ -16,9 +16,11 @@
     <button onclick="startTimer()">Start</button>
     <button onclick="pauseTimer()">Pause</button>
     <button onclick="restartTimer()">Restart</button>
+    <button onclick="doneWithTable()">Done with this table, get a new one</button>
 
-    <button onclick="doneWithTable()">Done with table, moving on now!</button>
-    <button onclick="getDifferentTable()">Want a different table?</button>
+    <label>Get a different table:</label>
+    <button onclick="getNearbyTable()">Get New Table Nearby</button>
+    <button onclick="getRandomTable()">Get Random Table</button>
 
     <script>
         let timeLeft = 60;
@@ -45,11 +47,15 @@
         }
 
         function doneWithTable() {
-            window.location.href = "{{ url_for('ready_for_table_bp.ask_ready_question', company=company) }}";
+            window.location.href = "{{ url_for('ready_for_table_bp.ask_ready_question_again', company=company|safe, table_number=table_number) }}";
         }
 
-        function getDifferentTable() {
-            window.location.href = "{{ url_for('set_table_bp.set_table_page', company=company, table_number=table_number) }}";
+        function getNearbyTable() {
+            window.location.href = "{{ url_for('set_table_bp.set_table_page', company=company|safe, old_table_number=table_number, method='nearby') }}";
+        }
+
+        function getRandomTable() {
+            window.location.href = "{{ url_for('set_table_bp.set_table_page', company=company|safe, old_table_number=table_number, method='random') }}";
         }
     </script>
 </body>
