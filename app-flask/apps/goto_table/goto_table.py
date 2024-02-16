@@ -1,10 +1,23 @@
 import html
 from flask import Blueprint, redirect, render_template, request, url_for
-from apps.api.api_table_alogrithms import *
 from flask import current_app as app
+from apps.api.api_table_alogrithms import *
 
 # Blueprint Configuration
-set_table_bp = Blueprint("set_table_bp", __name__, template_folder="templates", static_folder="static")
+goto_table_bp = Blueprint("goto_table_bp", __name__, template_folder="templates", static_folder="static")
+
+@goto_table_bp.route("/goto-table/<company>/<int:table_number>")
+def goto_table_page(company, table_number):
+    """
+    Route for showing "goto table" page. They will X number of seconds to 
+    get to the selected table before they lose that table.
+    Then the user can report when they are AT THE TABLE
+
+    :param company: Selected company from ready_for_table_bp
+    :param table_number: Assigned table number
+    :return: HTML template for setting the table
+    """
+    return render_template("goto_table_page.html", company=company, table_number=table_number)
 
 
 # call set table to 
@@ -12,8 +25,8 @@ set_table_bp = Blueprint("set_table_bp", __name__, template_folder="templates", 
 # - get nearby table if requested
 # - get random table if requested
 # - get random table if method initially "None"
-@set_table_bp.route("/set-table-again/<company>/<int:old_table_number>", methods=["GET"])
-def set_table_page(company, old_table_number):
+@goto_table_bp.route("/set-table/<company>/<int:old_table_number>", methods=["GET"])
+def set_table(company, old_table_number):
     """
     Route for setting a specific table.
     :param company: Selected company from ready_for_table_bp
@@ -53,25 +66,30 @@ def set_table_page(company, old_table_number):
     if (table_number == -1):
         return render_template("tables_full_page.html", company=html.unescape(company), table_number=table_number)
     
-    return render_template("set_table_page.html", company=html.unescape(company), table_number=table_number)
+    return render_template("goto_table_page.html", company=html.unescape(company), table_number=table_number)
     
 
 
-@set_table_bp.route("/set-table/<company>/<int:table_number>", methods=["POST"])
-def process_set_table(company, table_number):
-    """
-    Route to process setting the table.
-    If the user clicks 'yes', redirect to the TODO page.
-    :param company: Selected company from ready_for_table_bp
-    :param table_number: Assigned table number
-    :return: Redirect to the TODO page or stay on the set table page
-    """
-    user_response = request.form.get("response", "").lower()
+# @goto_table_bp.route("/set-table/<company>/<int:table_number>", methods=["POST"])
+# def process_set_table(company, table_number):
+#     """
+#     Route to process setting the table.
+#     If the user clicks 'yes', redirect to the TODO page.
+#     :param company: Selected company from ready_for_table_bp
+#     :param table_number: Assigned table number
+#     :return: Redirect to the TODO page or stay on the set table page
+#     """
+#     user_response = request.form.get("response", "").lower()
 
-    if user_response == "yes":
-        return redirect(url_for("at_table_bp.at_table_page", company=html.unescape(company), table_number=table_number))
-    else:
-        return redirect(url_for("ready_for_table_bp.ask_ready_question", company=html.unescape(company)))
+#     if user_response == "yes":
+#         return redirect(url_for("goto_table_bp.at_table_page", company=html.unescape(company), table_number=table_number))
+#     else:
+#         return redirect(url_for("ready_for_table_bp.ask_ready_question", company=html.unescape(company)))
     
+
+
+
+
+
 
 
