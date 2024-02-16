@@ -9,7 +9,7 @@
 
     <h1>Are you at table {{ table_number }}?</h1>
 
-    <form method="post" action="{{ url_for('timer_bp.timer_page', company=company, table_number=table_number) }}">
+    <form method="post" action="{{ url_for('timer_bp.timer_page', category=category, table_number=table_number) }}">
         <button type="submit">Yes!</button>
     </form>
 
@@ -25,7 +25,7 @@
             time--;
 
             if (time < 0) {
-                window.location.href = "{{ url_for('ready_bp.ask_ready_question', company=company) }}";
+                window.location.href = "{{ url_for('ready_bp.ask_ready_question', category=category) }}";
             } else {
                 setTimeout(updateCountdown, 1000);
             }

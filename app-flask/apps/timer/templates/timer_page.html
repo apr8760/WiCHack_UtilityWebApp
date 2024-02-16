@@ -47,15 +47,15 @@
         }
 
         function doneWithTable() {
-            window.location.href = "{{ url_for('ready_bp.ask_ready_question_again', company=company|safe, table_number=table_number) }}";
+            window.location.href = "{{ url_for('ready_bp.ask_ready_question_again', category=category|safe, table_number=table_number) }}";
         }
 
         function getNearbyTable() {
-            window.location.href = "{{ url_for('goto_table_bp.set_table', company=company|safe, old_table_number=table_number, method='nearby') }}";
+            window.location.href = "{{ url_for('goto_table_bp.set_table', category=category|safe, old_table_number=table_number, method='nearby') }}";
         }
 
         function getRandomTable() {
-            window.location.href = "{{ url_for('goto_table_bp.set_table', company=company|safe, old_table_number=table_number, method='random') }}";
+            window.location.href = "{{ url_for('goto_table_bp.set_table', category=category|safe, old_table_number=table_number, method='random') }}";
         }
     </script>
 </body>

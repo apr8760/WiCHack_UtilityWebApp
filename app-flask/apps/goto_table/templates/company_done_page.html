@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Done Page</title>
+    <title>Category Done Page</title>
     <!-- Add any additional styles or scripts as needed -->
 </head>
 
@@ -12,8 +12,8 @@
     <h1>Done</h1>
     <p>Yay, you're all done!</p>
 
-    <form action="{{ url_for('pick_company_bp.home_page', company=company|safe) }}" method="get">
-        <button type="submit">Pick a new company?</button>
+    <form action="{{ url_for('pick_category_bp.home_page', category=category|safe) }}" method="get">
+        <button type="submit">Pick a new category?</button>
     </form>
 </body>
 
