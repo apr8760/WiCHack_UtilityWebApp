@@ -39,7 +39,7 @@ def set_table(category, old_table_number):
 
     # First: if all tables have been judged return done page
     if(no_more_tables(app, category=category)):
-        return render_template("category.html", category=html.unescape(category))
+        return render_template("category_done_page.html", category=html.unescape(category))
     
     # Second: Free the old table if this is not the first call to set-table
     # if we are not calling set-table for the first time, old_table_number should have a value

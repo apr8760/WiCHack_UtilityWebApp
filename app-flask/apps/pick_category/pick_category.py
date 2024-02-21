@@ -9,23 +9,129 @@ pick_category_bp = Blueprint("pick_category_bp", __name__, template_folder="temp
 # Assuming app.categories_to_company is a dictionary containing categories for each company
 # Example: app.categories_to_company = {'WiC': ['Category1', 'Category2'], 'Fidelity': ['Category3', 'Category4']}
 
+
 @pick_category_bp.route("/", methods=["GET", "POST"])
-def home_page():
-    if request.method == "POST":
-        selected_company = request.form.get("selected_company")
-        selected_category = request.form.get("selected_category")
+def category_selection():
+    selected_company = request.form.get("selected_company")
+    selected_category = request.form.get("selected_category")
 
-        if selected_company:
-            return redirect(url_for("pick_category_bp.category_selection", company=selected_company))
-        elif selected_category:
-            return redirect(url_for("ready_bp.ask_ready_question", category=selected_category))
+    categories = app.categories_to_company.get(selected_company, []) if selected_company else []
 
-    return render_template("pick_home.html", companies=app.categories_to_company.keys())
+    if request.method == "POST" and selected_company and not selected_category:
+        return render_template("pick_category.html", companies=app.categories_to_company.keys(),
+                           selected_company=selected_company, categories=categories)
 
-@pick_category_bp.route("/<company>", methods=["GET"])
-def category_selection(company):
-    categories = app.categories_to_company.get(company, [])
-    return render_template("pick_home.html", company=company, categories=categories)
+    # if request.method == "POST" and selected_company and selected_category:
+    #     return redirect(url_for("ready_bp.ask_ready_question", category=selected_category))
+    
+    return render_template("pick_category.html", companies=app.categories_to_company.keys(),
+                           selected_company=selected_company, categories=categories)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @pick_category_bp.route("/", methods=["GET", "POST"])
+# def company_selection():
+#     selected_company = request.form.get("selected_company")
+
+#     if request.method == "POST" and selected_company:
+#         return redirect(url_for("pick_category_bp.category_selection", company=selected_company))
+
+#     return render_template("pick_company.html", companies=app.categories_to_company.keys(), selected_company=selected_company)
+
+# @pick_category_bp.route("/<company>", methods=["GET"])
+# def category_selection(company):
+#     categories = app.categories_to_company.get(company, [])
+#     return render_template("pick_company.html", company=company, categories=categories, selected_company=company)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

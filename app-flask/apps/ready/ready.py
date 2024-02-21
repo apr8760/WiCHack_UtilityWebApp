@@ -16,7 +16,7 @@ def ask_ready_question(category):
     :param category: Selected category from pick_category_bp
     :return: HTML template
     """
-    return render_template("ready_page.html", category=html.unescape(category))
+    return render_template("ready_page.html", category=(category))
 
 
 @ready_bp.route("/ready-question-<category>-<int:table_number>")
@@ -30,7 +30,7 @@ def ask_ready_question_again(category, table_number):
     free_table(app, table_number=table_number)
     make_done(app, category=category, table_number=table_number)
     
-    return render_template("ready_page.html", category=html.unescape(category))
+    return render_template("ready_page.html", category=(category))
 
 @ready_bp.route("/ready-question-<category>", methods=["POST"])
 def process_ready_response(category):
@@ -43,9 +43,9 @@ def process_ready_response(category):
     user_response = request.form.get("response", "").lower()
 
     if user_response == "yes":
-        return redirect(url_for("goto_table_bp.set_table", category=html.unescape(category), old_table_number=0))
+        return redirect(url_for("goto_table_bp.set_table", category=(category), old_table_number=0))
     else:
-        return redirect(url_for("ready_bp.ask_ready_question", category=html.unescape(category)))
+        return redirect(url_for("ready_bp.ask_ready_question", category=(category)))
 
 
 

@@ -10,10 +10,10 @@
 
 <body>
     <h1>Done</h1>
-    <p>Yay, you're all done!</p>
+    <p>Yay, you're all done with "{{ category }}"! Pick a new category?</p>
 
-    <form action="{{ url_for('pick_category_bp.home_page', category=category|safe) }}" method="get">
-        <button type="submit">Pick a new category?</button>
+    <form action="{{ url_for('pick_category_bp.category_selection') }}" method="get">
+        <button type="submit">Pick a new category</button>
     </form>
 </body>
 

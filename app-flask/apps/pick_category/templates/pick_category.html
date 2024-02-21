@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Category</title>
+    <script>
+        // Function to set the selected option in the company dropdown based on URL parameter
+        function setSelectedCompany() {
+            var selectedCompany = "{{ selected_company }}";
+            var companyDropdown = document.getElementById("selected_company");
+
+            for (var i = 0; i < companyDropdown.options.length; i++) {
+                if (companyDropdown.options[i].value === selectedCompany) {
+                    companyDropdown.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
+        // Function to set the selected option in the category dropdown based on URL parameter
+        function setSelectedCategory() {
+            var selectedCategory = "{{ selected_category }}";
+            var categoryDropdown = document.getElementById("selected_category");
+
+            for (var i = 0; i < categoryDropdown.options.length; i++) {
+                if (categoryDropdown.options[i].value === selectedCategory) {
+                    categoryDropdown.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
+        // Function to update form action with the selected category
+        function updateFormAction() {
+            var categoryDropdown = document.getElementById("selected_category");
+            var form = document.getElementById("category_form");
+            var selectedCategory = categoryDropdown.value;
+
+            // Update the form action with the selected category
+            form.action = "{{ url_for('ready_bp.ask_ready_question', category='') }}" + selectedCategory;
+        }
+
+        // Call the functions when the page loads
+        window.onload = function() {
+            setSelectedCompany();
+            setSelectedCategory();
+            updateFormAction();
+        };
+    </script>
+</head>
+<body>
+    <form method="post">
+        <label for="selected_company">Select a Company:</label>
+        <select name="selected_company" id="selected_company">
+            {% for company in companies %}
+                <option value="{{ company }}" {% if company == selected_company %}selected{% endif %}>{{ company }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit Company">
+    </form>
+
+    {% if selected_company %}
+        <form method="post" onsubmit="updateFormAction()" id="category_form">
+            <label for="selected_category">Select a Category:</label>
+            <select name="selected_category" id="selected_category">
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Submit Category">
+        </form>
+    {% endif %}
+</body>
+</html>
