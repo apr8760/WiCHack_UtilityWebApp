@@ -15,7 +15,7 @@
         <p>Sorry, this is the only table available right now. Maybe try again later.</p>
     {% endif %}
 
-    <form method="post" action="{{ url_for('set_table_bp.process_set_table', company=company, table_number=table_number) }}">
+    <form method="post" action="{{ url_for('set_table_bp.process_set_table', category=category, table_number=table_number) }}">
         <label for="response">Your response:</label>
         <select name="response" id="response" required>
             <option value="yes">Yes</option>

@@ -6,18 +6,18 @@ from apps.api.api_table_alogrithms import *
 # Blueprint Configuration
 goto_table_bp = Blueprint("goto_table_bp", __name__, template_folder="templates", static_folder="static")
 
-@goto_table_bp.route("/goto-table/<company>/<int:table_number>")
-def goto_table_page(company, table_number):
+@goto_table_bp.route("/goto-table/<category>/<int:table_number>")
+def goto_table_page(category, table_number):
     """
     Route for showing "goto table" page. They will X number of seconds to 
     get to the selected table before they lose that table.
     Then the user can report when they are AT THE TABLE
 
-    :param company: Selected company from ready_for_table_bp
+    :param category: Selected category from ready_for_table_bp
     :param table_number: Assigned table number
     :return: HTML template for setting the table
     """
-    return render_template("goto_table_page.html", company=company, table_number=table_number)
+    return render_template("goto_table_page.html", category=category, table_number=table_number)
 
 
 # call set table to 
@@ -25,11 +25,11 @@ def goto_table_page(company, table_number):
 # - get nearby table if requested
 # - get random table if requested
 # - get random table if method initially "None"
-@goto_table_bp.route("/set-table/<company>/<int:old_table_number>", methods=["GET"])
-def set_table(company, old_table_number):
+@goto_table_bp.route("/set-table/<category>/<int:old_table_number>", methods=["GET"])
+def set_table(category, old_table_number):
     """
     Route for setting a specific table.
-    :param company: Selected company from ready_for_table_bp
+    :param category: Selected category from ready_for_table_bp
     :param table_number: Assigned table number
     :return: HTML template for setting the table
     """
@@ -38,8 +38,8 @@ def set_table(company, old_table_number):
 
 
     # First: if all tables have been judged return done page
-    if(no_more_tables(app, company=company)):
-        return render_template("company_done_page.html", company=html.unescape(company))
+    if(no_more_tables(app, category=category)):
+        return render_template("category_done_page.html", category=html.unescape(category))
     
     # Second: Free the old table if this is not the first call to set-table
     # if we are not calling set-table for the first time, old_table_number should have a value
@@ -50,7 +50,7 @@ def set_table(company, old_table_number):
     # Third: Get the new table
     # You need to account for
     # - The complete table list and every table's availability, only "True" (available) tables valid
-    # - Cross referenced with the specific company's table list
+    # - Cross referenced with the specific category's table list
     # - Cross reference to not include whatever is in the blocked list (The blocked list is just there in case 
     #   someone really doesn't want a table and we want to include that in our decision for whatever reason)
     # You will also get a table in different ways, specified by method
@@ -59,37 +59,11 @@ def set_table(company, old_table_number):
 
     table_number = old_table_number
     if (method == "random"):
-        table_number = get_random_qualifying_table(app, company=company)
+        table_number = get_random_qualifying_table(app, category=category)
     if (method == "nearby"):
-        table_number = get_nearby_qualifying_table(app, company=company, blocked_list=[])
+        table_number = get_nearby_qualifying_table(app, category=category, blocked_list=[])
 
     if (table_number == -1):
-        return render_template("tables_full_page.html", company=html.unescape(company), table_number=table_number)
+        return render_template("tables_full_page.html", category=html.unescape(category), table_number=table_number)
     
-    return render_template("goto_table_page.html", company=html.unescape(company), table_number=table_number)
-    
-
-
-# @goto_table_bp.route("/set-table/<company>/<int:table_number>", methods=["POST"])
-# def process_set_table(company, table_number):
-#     """
-#     Route to process setting the table.
-#     If the user clicks 'yes', redirect to the TODO page.
-#     :param company: Selected company from ready_for_table_bp
-#     :param table_number: Assigned table number
-#     :return: Redirect to the TODO page or stay on the set table page
-#     """
-#     user_response = request.form.get("response", "").lower()
-
-#     if user_response == "yes":
-#         return redirect(url_for("goto_table_bp.at_table_page", company=html.unescape(company), table_number=table_number))
-#     else:
-#         return redirect(url_for("ready_for_table_bp.ask_ready_question", company=html.unescape(company)))
-    
-
-
-
-
-
-
-
+    return render_template("goto_table_page.html", category=html.unescape(category), table_number=table_number)

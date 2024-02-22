@@ -1,0 +1,19 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Flask-React App</title>
+</head>
+<body>
+    <!-- The root div where the React app will be mounted -->
+    <div id="root"></div>
+    <!-- Include the built React app scripts -->
+    {% with manifest='static/js' %}
+        {% if manifest %}
+            <script src="{{ url_for('static', filename=manifest) }}"></script>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

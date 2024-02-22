@@ -7,16 +7,10 @@
 </head>
 <body>
     <h1>Ready for Table</h1>
-    <p>Ready?</p>
 
-    <form method="post" action="{{ url_for('ready_bp.process_ready_response', company=company, table_number=None) }}">
-        <label for="response">Your response:</label>
-        <select name="response" id="response" required>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-
-        <button type="submit">Submit</button>
+    <form method="post" action="{{ url_for('ready_bp.process_ready_response', category=category, table_number=None) }}">
+        <label for="response">Ready?</label>
+        <button type="submit" name="response" value="yes">Yes</button>
     </form>
 </body>
 </html>

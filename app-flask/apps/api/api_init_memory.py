@@ -64,8 +64,25 @@ def init_availability(app: Flask) -> dict:
     availability_dict = {i + 1: True for i in range(number_tables)}
     return availability_dict
 
+def init_category_done_dicts(app: Flask) -> dict:
+    """Get dictionary of all categories (key) to a list of pairs (table, T/F)
+    to tell you whether that table is done (True) or not (False). If a table is
+    done, it is set to True and the judge should never be offered that table again."""
 
-def init_company_done_lists(app:Flask) -> dict:
+    category_done_dicts = {}
+
+    for category in app.tables_to_category.keys():
+        tables_for_this_category = app.tables_to_category[category]
+        tables_done_dict = {int(table_number): False for table_number in tables_for_this_category}
+        category_done_dicts[category] = tables_done_dict
+
+
+    return category_done_dicts
+
+
+# This function doesn't actually get used anymore but keeping it here just in case
+# we ever want to just divide the tables to each company
+def init_company_done_dicts(app:Flask) -> dict:
     """Get dictionary of all companies (key) to a list of pairs (table, T/F)
     to tell you whether that table is done (True) or not (False). If a table is
     done, it is set to True and the judge should never be offered that table again."""
